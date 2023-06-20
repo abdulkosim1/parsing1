@@ -7,9 +7,9 @@ from django.urls import path, include
 
 schema_view = get_schema_view(
     openapi.Info(
-    title='Pets hackathon',
+    title='RSK Hackaton',
     default_version='v1',
-    description='pets'
+    description='RSK'
     ),
     public=True
 )
@@ -18,7 +18,6 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
-
     path('swagger/', schema_view.with_ui('swagger')),
 
 

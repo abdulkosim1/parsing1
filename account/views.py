@@ -80,3 +80,10 @@ class GetProfile(generics.ListAPIView): # Просмотр профиля (се�
     def get_queryset(self):
         return User.objects.filter(id=self.request.user.id)
    
+class EditProfileAPIView(generics.RetrieveUpdateAPIView): # Put & Patch на изменение данных профиля
+    queryset = User.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.queryset.get(id=self.request.user.id)
