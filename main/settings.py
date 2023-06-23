@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
     # apps
     'account',
+    'ticket',
 ]
 
 MIDDLEWARE = [

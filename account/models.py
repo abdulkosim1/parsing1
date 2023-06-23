@@ -39,6 +39,7 @@ class CustomUser(AbstractUser):
     otchestvo = models.CharField(max_length=50)
     pin = models.CharField(max_length=14)
     phone_number = models.CharField(max_length=20, unique=True)
+    profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
 
     is_active = models.BooleanField(default=False)
     is_worker = models.BooleanField(default=False)

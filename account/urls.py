@@ -10,7 +10,7 @@ urlpatterns = [
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('profile/', GetProfile.as_view()),
-    # path('edit_profile/', EditProfileAPIView.as_view()),
+    path('edit_profile/', EditProfileAPIView.as_view()),
 
     path('change_password/', ChangePasswordView.as_view()),
     path('reset_password/', ForgotPasswordAPIView.as_view()),
