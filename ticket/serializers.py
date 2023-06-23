@@ -14,7 +14,7 @@ class CitySerializer(serializers.ModelSerializer):
     # area = serializers.SlugRelatedField(slug_field='title', read_only=True)
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['area'] = instance.area.title
+        representation['region'] = instance.region.title
         return representation
 
     class Meta:
