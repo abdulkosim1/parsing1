@@ -11,23 +11,25 @@ class Region(models.Model):
     def __str__(self):
         return self.title
 
-class Area(models.Model):
-    title = models.CharField(max_length=50, unique=True)
-    region = models.ForeignKey(Region, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.title
 
 class City(models.Model):
     title = models.CharField(max_length=50, unique=True)
-    area = models.ForeignKey(Area, on_delete=models.CASCADE)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name='regions', blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+    
+class Area(models.Model):
+    title = models.CharField(max_length=50, unique=True)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='areas', blank=True, null=True)
 
     def __str__(self):
         return self.title
 
+
 class Department(models.Model):
     title = models.CharField(max_length=50, unique=True)
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='cities')
     address = models.CharField(max_length=50)
 
     def __str__(self):
