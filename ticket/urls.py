@@ -9,6 +9,12 @@ urlpatterns = [
     path('get_transaction/', GetTransactionListAPIView.as_view()),
 
 
+    path('get_ticket/', GetTicketListAPIView.as_view()),
+    path('create_ticket/', CreateTicketCreateAPIView.as_view()),
+
+
+
+
 ]
 
 

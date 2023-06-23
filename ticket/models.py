@@ -30,6 +30,7 @@ class Area(models.Model):
 class Department(models.Model):
     title = models.CharField(max_length=50, unique=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='cities')
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name='areas', blank=True, null=True)
     address = models.CharField(max_length=50)
 
     def __str__(self):
@@ -50,6 +51,7 @@ class Ticket(models.Model):
     # transaction_list = [('money_transfers', 'Money transfers'), ('bank_cards','Bank cards'), ('account_maintenance','Account maintenance')]
     # status_list = [('not_active', 'Not active'), ('active', 'Active')]
 
+    executant = models.ForeignKey(User, on_delete=models.CASCADE, related_name='executans', blank=True, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     region = models.ForeignKey(Region, on_delete=models.CASCADE) # область
@@ -75,7 +77,7 @@ class Ticket(models.Model):
             self.activation_code = activation_code
 
         if not self.number:
-            transaction_code = self.transaction[0].upper()
+            transaction_code = self.transaction.title[0].upper()
             last_ticket_number = Ticket.objects.order_by('-id').first()
             if last_ticket_number:
                 last_number = int(last_ticket_number.number[2:])
@@ -87,4 +89,4 @@ class Ticket(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Билет: {self.number}, Владелец: {self.owner.email}, Операция: {self.transaction}"
+        return f"Билет: {self.number}, Владелец: {self.owner.email}, Операция: {self.transaction.title}"

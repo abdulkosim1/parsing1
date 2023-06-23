@@ -1,7 +1,6 @@
-
-from .models import City, Area, Transaction, Department, Region
-from rest_framework.generics import ListAPIView
-from .serializers import CitySerializer, AreaSerializer, TransactionSerializer, DepartmentSerializer, RegionSerializer
+from .models import City, Area, Transaction, Department, Region, Ticket
+from rest_framework.generics import ListAPIView, CreateAPIView
+from .serializers import CitySerializer, AreaSerializer, TransactionSerializer, DepartmentSerializer, RegionSerializer, TicketSerialier
 
 
 class GetCityListAPIView(ListAPIView): # get запрос на просмотр всех городов
@@ -23,3 +22,17 @@ class GetRegionListAPIView(ListAPIView): # get запрос на просмот�
 class GetTransactionListAPIView(ListAPIView): # get запрос на просмотр всех операций
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
+
+
+class GetTicketListAPIView(ListAPIView): # get запрос на просмотр всех билетов
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerialier
+
+
+class CreateTicketCreateAPIView(CreateAPIView): # post запрос на создание билета
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerialier
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
