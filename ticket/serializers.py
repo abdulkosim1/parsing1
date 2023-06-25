@@ -43,3 +43,9 @@ class TicketSerialier(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = '__all__'
+
+class OfflineTicketSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OffileTicket
+        fields = '__all__'

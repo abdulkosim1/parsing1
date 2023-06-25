@@ -1,7 +1,7 @@
-from .models import City, Area, Transaction, Department, Region, Ticket
-from rest_framework.generics import ListAPIView, CreateAPIView
-from .serializers import CitySerializer, AreaSerializer, TransactionSerializer, DepartmentSerializer, RegionSerializer, TicketSerialier
-from rest_framework.permissions import IsAuthenticated
+from .models import City, Area, Transaction, Department, Region, Ticket, OffileTicket
+from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView
+from .serializers import CitySerializer, AreaSerializer, TransactionSerializer, DepartmentSerializer, RegionSerializer, TicketSerialier, OfflineTicketSerializer
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class GetCityListAPIView(ListAPIView): # get запрос на просмотр всех городов
     queryset = City.objects.all()
@@ -28,7 +28,6 @@ class GetTicketListAPIView(ListAPIView): # get запрос на просмот�
     queryset = Ticket.objects.all()
     serializer_class = TicketSerialier
 
-
 class CreateTicketCreateAPIView(CreateAPIView): # post запрос на создание билета
     queryset = Ticket.objects.all()
     serializer_class = TicketSerialier
@@ -37,3 +36,8 @@ class CreateTicketCreateAPIView(CreateAPIView): # post запрос на соз�
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+
+class CreateOfflineTicketListCreateAPIView(ListCreateAPIView):
+    queryset = OffileTicket.objects.all()
+    serializer_class = OfflineTicketSerializer
+    permission_classes = [AllowAny]

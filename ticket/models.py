@@ -42,9 +42,7 @@ class Transaction(models.Model):
     def __str__(self) -> str:
         return self.title
     
-# class OfflineTicket(models.Model):
-#     terminal = models
-#     pass 
+
 
 class Ticket(models.Model):
 
@@ -90,3 +88,30 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f"Билет: {self.number}, Владелец: {self.owner.email}, Операция: {self.transaction.title}"
+    
+
+class OffileTicket(models.Model):
+    executant = models.ForeignKey(User, on_delete=models.CASCADE, related_name='offline_ticket', blank=True, null=True)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='offline_ticket') # тип операции
+    date = models.DateTimeField(auto_created=True, auto_now=True)
+    number = models.CharField(max_length=6, unique=True, blank=True)
+
+    status = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        if not self.number:
+            transaction_code = self.transaction.title[0].upper()
+            last_ticket_number = OffileTicket.objects.order_by('-id').first()
+        if last_ticket_number:
+            last_number = int(last_ticket_number.number[2:])
+        else:
+            last_number = -1
+        new_number = f'{transaction_code}{str(last_number + 1).zfill(3)}'
+        self.number = new_number
+        
+        super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return f"Билет: {self.number} Операция: {self.transaction.title}"
+
+    
