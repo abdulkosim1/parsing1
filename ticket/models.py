@@ -95,7 +95,7 @@ class OffileTicket(models.Model):
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='offline_ticket') # тип операции
     date = models.DateTimeField(auto_created=True, auto_now=True)
     number = models.CharField(max_length=6, unique=True, blank=True)
-    status1 = models.BooleanField(default=True)
+    status = models.BooleanField(default=True)
 
 
     def save(self, *args, **kwargs):
@@ -108,7 +108,7 @@ class OffileTicket(models.Model):
             last_number = -1
         new_number = f'{transaction_code}{str(last_number + 1).zfill(3)}'
         self.number = new_number
-        self.status1 = True
+        self.status = True
         
         super().save(*args, **kwargs)
 
