@@ -3,9 +3,17 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
+class Operator(models.Model):
+    number = models.IntegerField()
+    operator = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return f'{self.operator} - {self.number}'
+
 class Window(models.Model):
     number = models.CharField(max_length=50)
-    operator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='window_operator')
+    operator = models.ForeignKey(Operator, on_delete=models.CASCADE, related_name='window_operator')
     is_available = models.BooleanField(default=True)
     current_ticket = models.OneToOneField('ticket.Ticket', on_delete=models.SET_NULL, null=True, blank=True)
 

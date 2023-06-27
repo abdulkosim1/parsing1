@@ -36,6 +36,14 @@ class CreateTicketCreateAPIView(CreateAPIView): # post запрос на соз�
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+class GetMyTicketListAPIView(ListAPIView): # get запрос на просмотр бронированного билета
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerialier
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return self.queryset.filter(owner=self.request.user.id)
+
 
 class CreateOfflineTicketListCreateAPIView(ListCreateAPIView):
     queryset = OffileTicket.objects.all()

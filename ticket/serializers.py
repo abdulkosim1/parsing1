@@ -40,6 +40,16 @@ class TransactionSerializer(serializers.ModelSerializer):
 class TicketSerialier(serializers.ModelSerializer):
     owner = serializers.EmailField(required=False)
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['executant'] = instance.executant.name
+        representation['region'] = instance.region.title
+        representation['area'] = instance.area.title
+        representation['city'] = instance.city.title
+        representation['department'] = instance.department.title
+        representation['transaction'] = instance.transaction.title
+        return representation
+
     class Meta:
         model = Ticket
         fields = '__all__'
