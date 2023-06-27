@@ -42,7 +42,7 @@ class TicketSerialier(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['executant'] = instance.executant.email
+        # representation['executant'] = instance.executant.email
         representation['region'] = instance.region.title
         representation['area'] = instance.area.title
         representation['city'] = instance.city.title
