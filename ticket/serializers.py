@@ -38,7 +38,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
 
 class TicketSerialier(serializers.ModelSerializer):
-    owner = serializers.EmailField(required=True)
+    owner = serializers.EmailField(required=False)
 
     class Meta:
         model = Ticket

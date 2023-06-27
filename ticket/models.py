@@ -52,8 +52,8 @@ class Ticket(models.Model):
     executant = models.ForeignKey(User, on_delete=models.CASCADE, related_name='executans', blank=True, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
-    region = models.ForeignKey(Region, on_delete=models.CASCADE) # область
-    area = models.ForeignKey(Area, on_delete=models.CASCADE) # район
+    region = models.ForeignKey(Region, verbose_name="Область", on_delete=models.CASCADE) # область
+    area = models.ForeignKey(Area, help_text="", on_delete=models.CASCADE) # район
     city = models.ForeignKey(City, on_delete=models.CASCADE) # город
     department = models.ForeignKey(Department, on_delete=models.CASCADE) #отделение
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='transaction') # тип операции
@@ -117,4 +117,20 @@ class OffileTicket(models.Model):
     def __str__(self) -> str:
         return f"Билет: {self.number} Операция: {self.transaction.title}"
 
+
+class TicketQueue(models.Model):
     
+    """queue simultaneously for offline and online tickets"""
+
+    operator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='queues')
+    online_ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, null=True)
+    offline_ticket = models.ForeignKey(OffileTicket, on_delete=models.CASCADE, null=True)
+    number = models.CharField(max_length=6)
+    is_served = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ['online_ticket', 'offline_ticket', 'number']
+
+
