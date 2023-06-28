@@ -118,19 +118,19 @@ class OffileTicket(models.Model):
         return f"Билет: {self.number} Операция: {self.transaction.title}"
 
 
-class TicketQueue(models.Model):
+# class TicketQueue(models.Model):
     
-    """queue simultaneously for offline and online tickets"""
+#     """queue simultaneously for offline and online tickets"""
 
-    operator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='queues')
-    online_ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, null=True)
-    offline_ticket = models.ForeignKey(OffileTicket, on_delete=models.CASCADE, null=True)
-    number = models.CharField(max_length=6)
-    is_served = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+#     operator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='queues')
+#     online_ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, null=True)
+#     offline_ticket = models.ForeignKey(OffileTicket, on_delete=models.CASCADE, null=True)
+#     number = models.CharField(max_length=6)
+#     is_served = models.BooleanField(default=False)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        unique_together = ['online_ticket', 'offline_ticket', 'number']
+#     class Meta:
+#         unique_together = ['online_ticket', 'offline_ticket', 'number']
 
 
