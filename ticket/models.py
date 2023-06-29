@@ -67,7 +67,7 @@ class Ticket(models.Model):
 
     region = models.ForeignKey(Region, verbose_name="Область", on_delete=models.CASCADE) # область
     area = models.ForeignKey(Area, help_text="", on_delete=models.CASCADE) # район
-    # category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1) # категория
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1) # категория
     city = models.ForeignKey(City, on_delete=models.CASCADE) # город
     department = models.ForeignKey(Department, on_delete=models.CASCADE) #отделение
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='transaction') # тип операции
@@ -111,6 +111,7 @@ class Ticket(models.Model):
 class OffileTicket(models.Model):
     executant = models.ForeignKey(User, on_delete=models.CASCADE, related_name='offline_ticket', blank=True, null=True)
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='offline_ticket') # тип операции
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1) # категория
     date = models.DateTimeField(auto_created=True, auto_now=True)
     number = models.CharField(max_length=6, unique=True, blank=True)
     status = models.BooleanField(default=True)
