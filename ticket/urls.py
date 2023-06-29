@@ -2,6 +2,8 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
+    # path('queue/', QueueView.as_view(), name='queue'),
+
     path('get_area/', GetAreaListAPIView.as_view()),
     path('get_city/', GetCityListAPIView.as_view()),
     path('get_region/', GetRegionListAPIView.as_view()),
