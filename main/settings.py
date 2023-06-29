@@ -182,5 +182,6 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CORS_ALLOWED_ORIGINS = [
     # 'https://enactus-hack.vercel.app/',
     'http://localhost:3000',
+    'https://rsk-project.vercel.app',
 
 ]
