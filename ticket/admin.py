@@ -10,6 +10,7 @@ admin.site.register(Region)
 admin.site.register(Department)
 admin.site.register(OffileTicket)
 admin.site.register(Category)
+admin.site.register(TicketQueue)
 
 
 

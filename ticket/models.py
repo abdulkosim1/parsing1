@@ -131,40 +131,40 @@ class OffileTicket(models.Model):
         new_number = f'{transaction_code}{str(last_number + 1).zfill(3)}'
         self.number = new_number
         self.status = True
-        
         super().save(*args, **kwargs)
-
-    
 
     def __str__(self) -> str:
         return f"Билет: {self.number} Операция: {self.transaction.title}"
 
 
+class Operator(models.Model):
+    number = models.IntegerField()
+    operator = models.ForeignKey(User, on_delete=models.CASCADE)
 
-# @receiver(post_save, sender=Ticket)
-# def add_ticket_to_queue(sender, instance, created, **kwargs):
-#     if created:
-#         # Создание объекта очереди
-#         queue = Queue.objects.create()
-#         # Привязка созданного билета к очереди
-#         instance.queue_id = queue.id 
-#         instance.queue = queue
-#         instance.save()
+    def __str__(self) -> str:
+        return f'{self.operator} - {self.number}'
+
+class Window(models.Model):
+    number = models.CharField(max_length=50)
+    operator = models.ForeignKey(Operator, on_delete=models.CASCADE, related_name='window_operator')
+    is_available = models.BooleanField(default=True)
+    current_ticket = models.OneToOneField(Ticket, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.operator} - {self.current_ticket}'
 
 
-# class TicketQueue(models.Model):
-    
-#     """queue simultaneously for offline and online tickets"""
+class TicketQueue(models.Model):   
+    """queue simultaneously for offline and online tickets"""
+    operator = models.ForeignKey(Operator, on_delete=models.CASCADE, related_name='queues')
+    online_ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, null=True)
+    offline_ticket = models.ForeignKey(OffileTicket, on_delete=models.CASCADE, null=True)
+    number = models.CharField(max_length=6)
+    is_served = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-#     operator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='queues')
-#     online_ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, null=True)
-#     offline_ticket = models.ForeignKey(OffileTicket, on_delete=models.CASCADE, null=True)
-#     number = models.CharField(max_length=6)
-#     is_served = models.BooleanField(default=False)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-
-#     class Meta:
-#         unique_together = ['online_ticket', 'offline_ticket', 'number']
+    class Meta:
+        unique_together = ['online_ticket', 'offline_ticket', 'number']
 
 
